@@ -1,10 +1,10 @@
 from connections import connect_mqtt, connect_internet
 from time import sleep
-from distSens1 import get_distance
+from humledmain import read_sensor
 
 mqttServer = "ef4663ed2bc142868e6dadce87747bb0.s1.eu.hivemq.cloud"
-mqttUser = "Team8"
-mqttPass = "Team8$$$"
+mqttUser = "Team82"
+mqttPass = "Team8$$$2"
 
 internetUsername = "HAcK-Project-WiFi-1" #CHANGE TO CORRECT WIFI OR WILL NOT WORK
 internetPassword = "UCLA.HAcK.2024.Summer"
@@ -15,12 +15,6 @@ def callback(topic, msg):
 
     if (topic == b"text"):
         print(msg.decode())
-def getTemperature():
-    return -9999 #TODO: Implement temperature sensor reading
-
-
-    
-
 
 def main():
     try:
@@ -34,7 +28,10 @@ def main():
         while True:
             client.check_msg()
             sleep(0.8)
-            client.publish(b"ultrasonic", str(get_distance()).encode())
+            temp, humidity = read_sensor()
+            print(f"Temperature: {temp}, Humidity: {humidity}")
+            client.publish(b"temp", str(temp).encode())
+            client.publish(b"humidity", str(humidity).encode())
 
     except KeyboardInterrupt:
         print('keyboard interrupt')

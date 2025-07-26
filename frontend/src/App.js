@@ -13,6 +13,8 @@ function App() {
   const [displayText, setDisplayText] = useState('Placeholder Text');
   const [displayTextUltrasonic, setDisplayTextUltrasonic] = useState('Placeholder Text');
   const [displayTextLight, setDisplayTextLight] = useState('Placeholder Text');
+  const [displayTextHumidity, setDisplayTextHumidity] = useState('Placeholder Text');
+
   useEffect(() => {
 
     socket.on('connect', () => console.log('Connected:', socket.id));
@@ -27,6 +29,10 @@ function App() {
     socket.on('light', (data) => {
       //console.log('Received from broker:', data);
       setDisplayTextLight(`Light Level: ${data}`);
+    });
+    socket.on('humidity', (data) => {
+      //console.log('Received from broker:', data);
+      setDisplayTextHumidity(`Humidity: ${data}`);
     });
 
     socket.on('picture_taken', data => {
@@ -54,7 +60,7 @@ function App() {
           style={{ width: "400px", height: "400px" }}
         />
       </div>
-      <p>{displayText}<br></br>{displayTextUltrasonic}<br></br>{displayTextLight}</p>
+      <p>{displayText}<br></br>{displayTextUltrasonic}<br></br>{displayTextLight}<br></br>{displayTextHumidity}</p>
     </div>
   );
 }
