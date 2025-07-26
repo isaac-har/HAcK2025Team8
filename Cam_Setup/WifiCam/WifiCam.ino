@@ -22,8 +22,8 @@ Field of Play – Secure Base 1 & 2 in the Engineering Transfer Center (Boelter 
 
 */
 
-static const char* WIFI_SSID = "HGhotspot";
-static const char* WIFI_PASS = "Jackalope35";
+static const char* WIFI_SSID = "Jerard";
+static const char* WIFI_PASS = "jerarda32";
 
 esp32cam::Resolution initialResolution;
 

@@ -21,8 +21,8 @@ function App() {
     });
     socket.on('picture_name', picInput => {
       setPictureName(picInput);
-      document.querySelector('.CameraImage').src = picInput; // Update image source
-      
+      console.log(pictureName);
+
     });
     return () => {
       socket.off('picture_taken');
@@ -36,7 +36,12 @@ function App() {
         <button onClick={takePicture} className="ImageButton">Take Picture</button>
       </div>
       <div>
-        <img src={placeholder} alt="Camera Image" className="CameraImage" style={{height: "300px", width: "300px"}} />
+        <img
+          src={`../${downloaded_image}.jpg`}
+          alt="Camera Image"
+          className="CameraImage"
+          style={{ width: "400px", height: "400px" }}
+        />
       </div>
     </div>
   );

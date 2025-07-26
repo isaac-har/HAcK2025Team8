@@ -7,9 +7,9 @@ import sys
 
 # Get the folder where the script is located, done for you
 script_dir = os.path.dirname(os.path.abspath(__file__))
-filename = os.path.join(script_dir, "../frontend/src/downloaded_image.jpg")
+filename = os.path.join(script_dir, "../frontend/public/camera/downloaded_image.jpg")
 
-url = "http://10.45.62.96/1024x768.jpg"             # You will have to change the IP Address
+url = "http://172.20.10.7/1024x768.jpg" # You will have to change the IP Address
 
 # Function to download the image from esp32, given to you
 def download_image():
