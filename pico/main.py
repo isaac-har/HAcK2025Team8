@@ -16,10 +16,13 @@ def callback(topic, msg):
     if (topic == b"text"):
         print(msg.decode())
 def getUltrasonic():
+    return -9999 #TODO: Implement ultrasonic sensor reading
    
 def getTemperature():
-    
+    return -9999 #TODO: Implement temperature sensor reading
+
 def getLight():
+    return -9999 #TODO: Implement light sensor reading
     
 
 
@@ -36,9 +39,10 @@ def main():
             client.check_msg()
             sleep(0.1)
             client.publish("ultrasonic", getUltrasonic())
-            client.publish("temperature", getTemperature())
+            client.publish("temp", getTemperature())
             client.publish("light", getLight())
             client.publish("distance", get_distance())
+            print(get_distance())
 
     except KeyboardInterrupt:
         print('keyboard interrupt')
