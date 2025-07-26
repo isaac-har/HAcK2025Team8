@@ -15,9 +15,6 @@ def callback(topic, msg):
 
     if (topic == b"text"):
         print(msg.decode())
-def getUltrasonic():
-    return -9999 #TODO: Implement ultrasonic sensor reading
-   
 def getTemperature():
     return -9999 #TODO: Implement temperature sensor reading
 
@@ -32,17 +29,15 @@ def main():
         client = connect_mqtt(mqttServer, mqttUser, mqttPass) # url, user, pass
 
         client.set_callback(callback)
-        client.subscribe("text")
+        client.subscribe(b"text")
         
 
         while True:
             client.check_msg()
-            sleep(0.1)
-            client.publish("ultrasonic", getUltrasonic())
-            client.publish("temp", getTemperature())
-            client.publish("light", getLight())
-            client.publish("distance", get_distance())
-            print(get_distance())
+            sleep(0.8)
+            client.publish(b"ultrasonic", str(get_distance()).encode())
+            client.publish(b"temp", str(getTemperature()).encode())
+            client.publish(b"light", str(getLight()).encode())
 
     except KeyboardInterrupt:
         print('keyboard interrupt')

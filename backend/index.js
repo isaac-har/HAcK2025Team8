@@ -51,7 +51,7 @@ client.on("reconnect", function () {
 // MQTT Connection
 
 client.on('connect', async () => {
-  console.log("Connected");
+  console.log("Connected MQTT");
 
   client.subscribe("ultrasonic", (err) => {
     if (err) {
@@ -103,9 +103,9 @@ let latestUltrasonic = null;
 let latestHumidity = null;
 let latestLight = null;
 
+
 io.on("connection", (socket) => {
   console.log("Frontend connected to socket");
-
   // Send the latest sensor data to the newly connected client
   if (latestTemp) {
     socket.emit('temp', latestTemp);

@@ -43,21 +43,25 @@ def get_distance():
     duration = time_pulse_us(echoPin, 1, 30000) # wait for echo to return for 0.03s
 
     if duration < 0:
-        return None
+        return -9999
 
     # calculate distance in inches (remember duration is in microseconds)
     dist = duration * soundSpeedin / 2000000 # divide by 2 for round trip
-    return dist
-
-while True:
-    dist = get_distance()
-    time.sleep(0.1)
-    
-    if dist is not None:
-        print("Distance:", dist, "inches")
+    if dist is None:
+        return -9999
     else:
-        print("no echo received")
-    time.sleep(0.1) #wait a moment
+        return dist
+    
+
+# while True:
+#     dist = get_distance()
+#     time.sleep(0.1)
+    
+#     if dist is not None:
+#         print("Distance:", dist, "inches")
+#     else:
+#         print("no echo received")
+#     time.sleep(0.1) #wait a moment
 
 
 """
