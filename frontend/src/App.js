@@ -8,12 +8,26 @@ function takePicture() {
   socket.emit('take_picture');
 }
 
+
+
 function App() {
   const [pictureStatus, setPictureStatus] = useState("");
   const [displayText, setDisplayText] = useState('Placeholder Text');
   const [displayTextUltrasonic, setDisplayTextUltrasonic] = useState('Placeholder Text');
   const [displayTextLight, setDisplayTextLight] = useState('Placeholder Text');
   const [displayTextHumidity, setDisplayTextHumidity] = useState('Placeholder Text');
+  const [myInput, setMyInput] = useState("");
+
+  function switchWatchMode() {
+    console.log(myInput);
+    if (myInput === "1" || myInput === "2") {
+      socket.emit('watchmode', myInput);
+    }
+    else {
+      return
+    }
+  }
+
 
   useEffect(() => {
 
@@ -52,6 +66,19 @@ function App() {
       <div>
         <button onClick={takePicture} className="ImageButton">Take Picture</button>
       </div>
+      <div className="watch-mode-container">
+        <label>
+          Choose Watch Mode (1 for Watch, 2 for Data)
+        </label>
+        <div className="input-button-row">
+          <input
+            name="myInput"
+            value={myInput}
+            onChange={e => setMyInput(e.target.value)}
+          />
+          <button onClick={switchWatchMode} className="WatchButton">Submit watch mode</button>
+        </div>
+      </div>
       <div>
         <img
           src={`http://localhost:8000/image.jpg?t=${Date.now()}`}
@@ -61,6 +88,11 @@ function App() {
         />
       </div>
       <p>{displayText}<br></br>{displayTextUltrasonic}<br></br>{displayTextLight}<br></br>{displayTextHumidity}</p>
+      <div>
+        <audio autoplay controls>
+          <source src={`http://localhost:8000/aiSpeech.mp3?t=${Date.now()}`} type="audio/mpeg" />
+        </audio>
+      </div>
     </div>
   );
 }

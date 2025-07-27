@@ -121,6 +121,11 @@ io.on("connection", (socket) => {
     client.publish("display", message.toString());
   });
 
+  socket.on('watchmode', (mode) => {
+    console.log('Received watch mode from frontend:', mode);
+    client.publish("watchmode", mode.toString());
+  });
+
   // Handle take picture request
   socket.on('take_picture', () => {
     console.log('📸 Taking picture and getting AI description...');

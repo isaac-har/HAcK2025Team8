@@ -1,6 +1,7 @@
 from connections import connect_mqtt, connect_internet
 from time import sleep
 from distSens1 import get_distance
+from watchdisplay import oledActivate
 
 mqttServer = "ef4663ed2bc142868e6dadce87747bb0.s1.eu.hivemq.cloud"
 mqttUser = "Team8"
@@ -11,16 +12,15 @@ internetPassword = "UCLA.HAcK.2024.Summer"
 
 client = None
 
-def callback(topic, msg):
+currWatchMode = 1
 
+def callback(topic, msg):
+    global currWatchMode
     if (topic == b"text"):
         print(msg.decode())
-def getTemperature():
-    return -9999 #TODO: Implement temperature sensor reading
-
-
-    
-
+    elif (topic == b"watchmode"):
+        currWatchMode = int(msg.decode())
+        print(f"Watch mode set to {currWatchMode}")
 
 def main():
     try:
@@ -29,12 +29,15 @@ def main():
 
         client.set_callback(callback)
         client.subscribe(b"text")
+        client.subscribe(b"watchmode")
         
 
         while True:
             client.check_msg()
             sleep(0.8)
-            client.publish(b"ultrasonic", str(get_distance()).encode())
+            distance = get_distance()
+            client.publish(b"ultrasonic", str(distance).encode())
+            oledActivate(currWatchMode, distance)
 
     except KeyboardInterrupt:
         print('keyboard interrupt')
