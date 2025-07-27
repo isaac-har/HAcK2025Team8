@@ -1,7 +1,8 @@
 from connections import connect_mqtt, connect_internet
-from time import sleep
+import time
 from distSens1 import get_distance
 from watchdisplay import oledActivate
+import ntptime
 
 mqttServer = "ef4663ed2bc142868e6dadce87747bb0.s1.eu.hivemq.cloud"
 mqttUser = "Team8"
@@ -13,31 +14,72 @@ internetPassword = "UCLA.HAcK.2024.Summer"
 client = None
 
 currWatchMode = 1
+message = "Team HAPI is first in the universe!"  # Default message
+temperature = "-9999"
+light = "-9999"
+humidity = "-9999"
 
 def callback(topic, msg):
     global currWatchMode
+    global message
+    global temperature
+    global light
+    global humidity
+    message = "Team HAPI is first in the universe!"
     if (topic == b"text"):
         print(msg.decode())
-    elif (topic == b"watchmode"):
-        currWatchMode = int(msg.decode())
-        print(f"Watch mode set to {currWatchMode}")
+    if (topic == b"watchmode"):
+        if (msg.decode() == "1" or msg.decode() == "2"):
+            currWatchMode = int(msg.decode())
+            print(f"Watch mode set to {currWatchMode}")
+        elif (msg.decode() == "none"):
+            message = "Team HAPI is first in the universe!"
+        else:
+            message = msg.decode()
+    if (topic == b"temp"):
+        temperature = msg.decode()
+    if (topic == b"humidity"):
+        humidity = msg.decode()
+    if (topic == b"light"):
+        light = msg.decode()
+            
+    
+
 
 def main():
     try:
         connect_internet(internetUsername,password=internetPassword) #ssid (wifi name), pass
         client = connect_mqtt(mqttServer, mqttUser, mqttPass) # url, user, pass
 
+        time.sleep(5)
+
+        ntptime.settime()
+
         client.set_callback(callback)
         client.subscribe(b"text")
         client.subscribe(b"watchmode")
+        client.subscribe(b"temp")
+        client.subscribe(b"humidity")
+        client.subscribe(b"light")
         
+        lastMqttCheck = 0
+        lastSensorCheck = 0
+        lastOledUpdate = 0
 
         while True:
-            client.check_msg()
-            sleep(0.8)
-            distance = get_distance()
-            client.publish(b"ultrasonic", str(distance).encode())
-            oledActivate(currWatchMode, distance)
+            currTime = time.ticks_ms()
+            if currTime - lastMqttCheck > 100:
+                client.check_msg()
+                lastMqttCheck = currTime
+            
+            if currTime - lastSensorCheck > 500:
+                distance = get_distance()
+                client.publish(b"ultrasonic", str(distance).encode())
+                lastSensorCheck = currTime
+            
+            if currTime - lastOledUpdate > 1000:
+                oledActivate(currWatchMode, distance, message, temperature, light, humidity)
+                lastOledUpdate = currTime
 
     except KeyboardInterrupt:
         print('keyboard interrupt')

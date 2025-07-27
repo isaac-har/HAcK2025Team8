@@ -1,6 +1,7 @@
 from connections import connect_mqtt, connect_internet
 from time import sleep
 from humledmain import read_sensor
+from machine import ADC, Pin
 
 mqttServer = "ef4663ed2bc142868e6dadce87747bb0.s1.eu.hivemq.cloud"
 mqttUser = "Team82"
@@ -10,6 +11,11 @@ internetUsername = "HAcK-Project-WiFi-1" #CHANGE TO CORRECT WIFI OR WILL NOT WOR
 internetPassword = "UCLA.HAcK.2024.Summer"
 
 client = None
+
+def getLight():
+    photoresistor = machine.ADC(26)  # GP26 for photoresistor
+    light_value = photoresistor.read_u16()  # Read the light value
+    return ((1.8657e-5 * light_value) - 0.209)
 
 def callback(topic, msg):
 
@@ -27,11 +33,12 @@ def main():
 
         while True:
             client.check_msg()
-            sleep(0.8)
+            sleep(0.3)
             temp, humidity = read_sensor()
             print(f"Temperature: {temp}, Humidity: {humidity}")
             client.publish(b"temp", str(temp).encode())
             client.publish(b"humidity", str(humidity).encode())
+            client.publish(b"light", str(getLight()).encode())
 
     except KeyboardInterrupt:
         print('keyboard interrupt')

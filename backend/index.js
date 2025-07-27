@@ -116,15 +116,17 @@ io.on("connection", (socket) => {
   }
 
   // Listen for messages from the frontend
-  socket.on('display', (message) => {
-    console.log('Received message from frontend:', message);
-    client.publish("display", message.toString());
-  });
+  // socket.on('display', (message) => {
+  //   console.log('Received message from frontend:', message);
+  //   client.publish("display", message.toString());
+  // });
 
   socket.on('watchmode', (mode) => {
     console.log('Received watch mode from frontend:', mode);
     client.publish("watchmode", mode.toString());
   });
+
+
 
   // Handle take picture request
   socket.on('take_picture', () => {

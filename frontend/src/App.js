@@ -23,8 +23,11 @@ function App() {
     if (myInput === "1" || myInput === "2") {
       socket.emit('watchmode', myInput);
     }
+    else if (myInput === "") {
+      socket.emit('watchmode', "none");
+    }
     else {
-      return
+      socket.emit('watchmode', myInput);
     }
   }
 

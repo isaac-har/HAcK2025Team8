@@ -12,7 +12,7 @@ def read_sensor():
     """Read temperature and humidity from sensor"""
     try:
         sensor.measure()
-        temp = sensor.temperature()
+        temp = (sensor.temperature() * 1.8) + 32  # Convert Celsius to Fahrenheit
         humidity = sensor.humidity()
         return temp, humidity
     except OSError as e:
