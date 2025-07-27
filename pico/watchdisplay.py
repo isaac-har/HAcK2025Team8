@@ -93,7 +93,7 @@ def oledActivate(screenState, distance):
      
         timeTuple = rtc.datetime()
 
-        Hour = timeTuple[4]
+        Hour = timeTuple[4] + 5
         Minute = timeTuple[5]
         Second = timeTuple[6]
 

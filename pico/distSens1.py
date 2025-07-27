@@ -29,7 +29,7 @@ print("begin!")
 soundSpeedm = 346 # m/s
 
 # convert 343 m/s to inches: 
-soundSpeedin = soundSpeedm * 39.3700787 # in/s
+soundSpeedin = soundSpeedm * 100
 
 
 def get_distance():
