@@ -24,7 +24,7 @@ def openAiProcessing(image_path):
             {
                 "role": "user",
                 "content": [
-                    { "type": "input_text", "text": "what's in this image?" },
+                    { "type": "input_text", "text": "You are a british spy assistant, analyze the image and report on any data and clues you find" },
                     {
                         "type": "input_image",
                         "image_url": f"data:image/jpeg;base64,{base64_image}",
@@ -48,7 +48,7 @@ def openAiProcessing(image_path):
         model="gpt-4o-mini-tts",
         voice="ballad",
         input=aiAnalyzedText,
-        instructions="Speak in a refined, clear, and serious manner as if you are a prim british butler.",
+        instructions="Speak in a refined, clear, and serious manner as if you are a prim british butler, you should be good humored but slightly stern.",
     ) as response:
         response.stream_to_file(speech_file_path)
 
