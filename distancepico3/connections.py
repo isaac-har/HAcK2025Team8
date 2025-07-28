@@ -11,7 +11,7 @@ class sslWrap:
 
 def connect_mqtt(mqtt_server, mqtt_user, mqtt_pass):
     client = MQTTClient(
-        client_id=b"pico2",
+        client_id=b"pico3",
         server= mqtt_server,
         port=8883,
         user=mqtt_user,

@@ -7,8 +7,8 @@ mqttServer = "ef4663ed2bc142868e6dadce87747bb0.s1.eu.hivemq.cloud"
 mqttUser = "Team82"
 mqttPass = "Team8$$$2"
 
-internetUsername = "HAcK-Project-WiFi-1" #CHANGE TO CORRECT WIFI OR WILL NOT WORK
-internetPassword = "UCLA.HAcK.2024.Summer"
+internetUsername = "bruins" #CHANGE TO CORRECT WIFI OR WILL NOT WORK
+internetPassword = "connect12"
 
 client = None
 

@@ -1,6 +1,5 @@
 from connections import connect_mqtt, connect_internet
 import time
-from distSens1 import get_distance
 from watchdisplay import oledActivate
 import ntptime
 
@@ -8,8 +7,8 @@ mqttServer = "ef4663ed2bc142868e6dadce87747bb0.s1.eu.hivemq.cloud"
 mqttUser = "Team8"
 mqttPass = "Team8$$$"
 
-internetUsername = "HAcK-Project-WiFi-1" #CHANGE TO CORRECT WIFI OR WILL NOT WORK
-internetPassword = "UCLA.HAcK.2024.Summer"
+internetUsername = "bruins" #CHANGE TO CORRECT WIFI OR WILL NOT WORK
+internetPassword = "connect12"
 
 client = None
 
@@ -18,6 +17,7 @@ message = "Team HAPI is first in the universe!"  # Default message
 temperature = "-9999"
 light = "-9999"
 humidity = "-9999"
+distance = "-9999"
 
 def callback(topic, msg):
     global currWatchMode
@@ -25,7 +25,7 @@ def callback(topic, msg):
     global temperature
     global light
     global humidity
-    message = "Team HAPI is first in the universe!"
+    global distance
     if (topic == b"text"):
         print(msg.decode())
     if (topic == b"watchmode"):
@@ -37,11 +37,14 @@ def callback(topic, msg):
         else:
             message = msg.decode()
     if (topic == b"temp"):
-        temperature = msg.decode()
+        temperature = float(msg.decode())
     if (topic == b"humidity"):
-        humidity = msg.decode()
+        humidity = float(msg.decode())
     if (topic == b"light"):
-        light = msg.decode()
+        light = float(msg.decode())
+    if (topic == b"ultrasonic"):
+        distance = float(msg.decode())
+        
             
     
 
@@ -61,9 +64,9 @@ def main():
         client.subscribe(b"temp")
         client.subscribe(b"humidity")
         client.subscribe(b"light")
+        client.subscribe(b"ultrasonic")
         
         lastMqttCheck = 0
-        lastSensorCheck = 0
         lastOledUpdate = 0
 
         while True:
@@ -71,11 +74,6 @@ def main():
             if currTime - lastMqttCheck > 100:
                 client.check_msg()
                 lastMqttCheck = currTime
-            
-            if currTime - lastSensorCheck > 500:
-                distance = get_distance()
-                client.publish(b"ultrasonic", str(distance).encode())
-                lastSensorCheck = currTime
             
             if currTime - lastOledUpdate > 1000:
                 oledActivate(currWatchMode, distance, message, temperature, light, humidity)

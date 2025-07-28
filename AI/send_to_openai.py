@@ -24,7 +24,7 @@ def openAiProcessing(image_path):
             {
                 "role": "user",
                 "content": [
-                    { "type": "input_text", "text": "You are a british spy assistant, analyze the image and report on any data and clues you find" },
+                    { "type": "input_text", "text": "Describe what you see in the image, describe what it is, and if relevant discuss author, quantity, and characteristics. " },
                     {
                         "type": "input_image",
                         "image_url": f"data:image/jpeg;base64,{base64_image}",

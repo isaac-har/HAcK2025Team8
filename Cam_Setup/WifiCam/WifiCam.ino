@@ -22,8 +22,8 @@ Field of Play – Secure Base 1 & 2 in the Engineering Transfer Center (Boelter 
 
 */
 
-static const char* WIFI_SSID = "HAcK-Project-WiFi-1";
-static const char* WIFI_PASS = "UCLA.HAcK.2024.Summer";
+static const char* WIFI_SSID = "bruins";
+static const char* WIFI_PASS = "connect12";
 
 esp32cam::Resolution initialResolution;
 

@@ -110,31 +110,22 @@ def oledActivate(screenState, distance, message, temperature, light, humidity):
     #otherwise: default is Data Center Mode
     if screenState == 2:
         oled.fill(0)
-                
-        if distance is not None:
-            distance = round(distance,3)
-            print("Distance: ", distance, "cm")
-            distStr = str(distance)
-            oled.text("Distance:",0,8)
-            oled.text(distStr, 40, 8)
-            #oled.show()
-            #time.sleep(0.1)
-            #oled.fill(0)
-        else:
-            print("no echo received")
-            #oled.show()
-            #time.sleep(0.1)
+            
+        distStr = str(distance)
+        oled.text("Distance:",0,8)
+        oled.text(distStr, 80, 8)
+
         tempStr = str(temperature)
         oled.text("Temp:",0,16)
-        oled.text(tempStr, 40, 16)
+        oled.text(tempStr, 64, 16)
 
         lightStr = str(light)
         oled.text("Light:",0,24)
-        oled.text(lightStr, 40, 24)
+        oled.text(lightStr, 64, 24)
 
         humidityStr = str(humidity)
         oled.text("Humidity:",0,32)
-        oled.text(humidityStr, 40, 32)
+        oled.text(humidityStr, 80, 32)
             
         oled.text(message, xmes, 0)              
         xmes = xmes - 20
