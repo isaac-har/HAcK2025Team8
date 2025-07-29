@@ -15,7 +15,8 @@ client = None
 def getLight():
     photoresistor = machine.ADC(26)  # GP26 for photoresistor
     light_value = photoresistor.read_u16()  # Read the light value
-    return ((1.8657e-5 * light_value) - 0.209)
+    return ((1.8657e-5 * light_value) - 0.209) 
+    # ^^ Fitting mathematical model to convert ADC value to lumens
 
 def callback(topic, msg):
 

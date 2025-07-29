@@ -2,13 +2,9 @@ from APIkey import apikey
 import base64
 from openai import OpenAI
 import os
-# TODO: Import your libaries
 
 client = OpenAI(api_key=apikey)
 
-
-
-# Image encoding, code provided
 def encode_image(image_path):
     with open(image_path, "rb") as image_F:
         return base64.b64encode(image_F.read()).decode('utf-8')
@@ -37,12 +33,8 @@ def openAiProcessing(image_path):
     aiAnalyzedText = response.output_text
     print("AI Response:", aiAnalyzedText)
 
-
-    # TODO: How do we make things audible?
     script_dir = os.path.dirname(os.path.abspath(__file__))
     speech_file_path = os.path.join(script_dir, "../backend/public/aiSpeech.mp3")
-    
-    #TODO: FIGURE OUT THIS SPEECH FILE PATH AND SEND TO WEBSITE
 
     with client.audio.speech.with_streaming_response.create(
         model="gpt-4o-mini-tts",
@@ -52,5 +44,4 @@ def openAiProcessing(image_path):
     ) as response:
         response.stream_to_file(speech_file_path)
 
-    # TODO: Can we put everything together?
 
